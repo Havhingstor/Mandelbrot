@@ -7,5 +7,8 @@
 
 import Foundation
 
-print("Hello, World!")
+let i = ComplexNumber(real: 7, imaginary: -15)
+
+print(i)
+print(i.sqr())
 
