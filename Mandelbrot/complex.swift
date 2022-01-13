@@ -37,10 +37,10 @@ public class ComplexNumber: CustomStringConvertible {
         }
     }
     
-    private var real: Int
-    private var imaginary: Int
+    private var real: Double
+    private var imaginary: Double
     
-    init(real: Int = 0, imaginary: Int = 0) {
+    init(real: Double = 0, imaginary: Double = 0) {
         self.real = real
         self.imaginary = imaginary
     }
@@ -59,16 +59,16 @@ public class ComplexNumber: CustomStringConvertible {
         return ComplexNumber(real: real + val.real, imaginary: imaginary + val.imaginary)
     }
     
-    public var realExternal: Int {
+    public var realExternal: Double {
         real
     }
     
-    public var imaginaryExternal: Int {
+    public var imaginaryExternal: Double {
         imaginary
     }
     
     public var absolute: Double {
-        sqrt(Double(real * real + imaginary * imaginary))
+        sqrt(real * real + imaginary * imaginary)
     }
 }
 

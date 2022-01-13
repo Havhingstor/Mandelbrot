@@ -15,4 +15,4 @@ print(i.sqr())
 
 print(ComplexNumber(real: 3, imaginary: 4).absolute)
 
-print(isInMandelbrotSet(number: ComplexNumber(real: -1, imaginary: 1), iterations: 50))
+print(isInMandelbrotSet(number: ComplexNumber(real: -0.33463, imaginary: 0.61804), iterations: 50))
