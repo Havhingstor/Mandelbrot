@@ -12,3 +12,5 @@ let i = ComplexNumber(real: 7, imaginary: -15)
 print(i.add(ComplexNumber(real: -7, imaginary: 15)))
 print(i.sqr())
 
+
+print(ComplexNumber(real: 3, imaginary: 4).absolute)

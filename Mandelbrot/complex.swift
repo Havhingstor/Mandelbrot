@@ -7,8 +7,8 @@
 
 import Foundation
 
-class ComplexNumber: CustomStringConvertible {
-    var description: String {
+public class ComplexNumber: CustomStringConvertible {
+    public var description: String {
         if real != 0 && imaginary != 0 {
            if imaginary != 1 && imaginary != -1 && imaginary > 0 {
                 return "\(real) + \(imaginary)i"
@@ -65,5 +65,9 @@ class ComplexNumber: CustomStringConvertible {
     
     public var imaginaryExternal: Int {
         imaginary
+    }
+    
+    public var absolute: Double {
+        sqrt(Double(real * real + imaginary * imaginary))
     }
 }
