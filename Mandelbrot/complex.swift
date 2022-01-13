@@ -55,6 +55,10 @@ class ComplexNumber: CustomStringConvertible {
         return ComplexNumber(real: newReal, imaginary: p2)
     }
     
+    public func add(_ val: ComplexNumber) -> ComplexNumber {
+        return ComplexNumber(real: real + val.real, imaginary: imaginary + val.imaginary)
+    }
+    
     public var realExternal: Int {
         real
     }

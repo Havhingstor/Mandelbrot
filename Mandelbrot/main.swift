@@ -9,6 +9,6 @@ import Foundation
 
 let i = ComplexNumber(real: 7, imaginary: -15)
 
-print(i)
+print(i.add(ComplexNumber(real: -7, imaginary: 15)))
 print(i.sqr())
 
