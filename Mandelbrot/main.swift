@@ -14,3 +14,5 @@ print(i.sqr())
 
 
 print(ComplexNumber(real: 3, imaginary: 4).absolute)
+
+print(isInMandelbrotSet(number: ComplexNumber(real: -1, imaginary: 1), iterations: 50))

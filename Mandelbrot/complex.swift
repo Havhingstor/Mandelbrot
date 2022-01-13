@@ -71,3 +71,16 @@ public class ComplexNumber: CustomStringConvertible {
         sqrt(Double(real * real + imaginary * imaginary))
     }
 }
+
+/// - Returns: The number of steps needed to get a number with an absolute value higher than 2. Returns 0, if no such value was found.
+public func isInMandelbrotSet(number num: ComplexNumber, iterations its: Int) -> Int {
+    var val = ComplexNumber()
+    for i in 1 ... its {
+        val = val.sqr()
+        val = val.add(num)
+        if val.absolute > 2 {
+            return i
+        }
+    }
+    return 0
+}
