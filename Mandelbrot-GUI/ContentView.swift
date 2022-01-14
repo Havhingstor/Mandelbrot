@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Mandelbrot
 
 let size = 450
 let range: UInt32 = 90
