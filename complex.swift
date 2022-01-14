@@ -78,7 +78,7 @@ public func isInMandelbrotSet(number num: ComplexNumber, iterations its: Int) ->
     for i in 1 ... its {
         val = val.sqr()
         val = val.add(num)
-        print("\(val)\t->\t\(val.absolute)")
+//        print("\(val)\t->\t\(val.absolute)")
         if val.absolute > 2 {
             return i
         }
