@@ -73,7 +73,7 @@ public class ComplexNumber: CustomStringConvertible {
 }
 
 /// - Returns: The number of steps needed to get a number with an absolute value higher than 2. Returns 0, if no such value was found.
-public func isInMandelbrotSet(number num: ComplexNumber, iterations its: Int) -> Int {
+public func isInMandelbrotSet(number num: ComplexNumber, iterations its: UInt32) -> UInt32 {
     var val = ComplexNumber()
     for i in 1 ... its {
         val = val.sqr()

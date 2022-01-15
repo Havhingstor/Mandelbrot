@@ -7,41 +7,65 @@
 
 import SwiftUI
 
-let size = 450
-let range: UInt32 = 90
-let iterations = 1000
-let threshold = 18
+/// The resolution of the image in pixel per half dimension
+var resolution: Double = 802
+/// The range of calculated numbers
+var range: Double = 2.5
+/// The diameter of one unit
+var unitSize: Double = 4
+/// The number of calculating iterations
+var iterations: UInt32 = 1000
+/// The threshold for calculating the color of the values
+var threshold: UInt32 = 18
 
-var radius: Double {
-    Double(size) / (Double(range) * 2)
+/// The number of units per dimension
+var unitNr: Int {
+    Int(floor(resolution / unitSize - 0.5))
+}
+
+var intPerUnit: Double {
+    range * 2 / Double(unitNr)
+}
+
+func transferX(x: Double) -> Double {
+    x * unitSize + resolution / 2
+}
+
+func transferY(y: Double) -> Double {
+    transferX(x: -y)
+}
+
+func optimizeRes() {
+    let newUnitNr = ceil(resolution / unitSize - 0.5)
+    resolution = unitSize * (newUnitNr + 0.5)
 }
 
 struct ContentView: View {
-    @State var rangeX: [Int] = [Int] (-Int(range) ... Int(range))
-    @State var rangeY: [Int] = [Int] (-Int(range) ... Int(range))
+    @State var rangeX: [Int] = [Int] (-unitNr ..< unitNr)
+    @State var rangeY: [Int] = [Int] (-unitNr ..< unitNr)
 
     var body: some View {
         ZStack {
             ForEach(rangeX, id: \.self) { x in
                 ForEach(rangeY, id: \.self) { y in
-                    let coords = getPoints(x: x, y: y)
-                    if let col = getColor(x: x, y: y) {
-                        drawPoint(x: coords.0, y: coords.1, radius: radius, color: col)
+                    if let col = getColor(x: Double(x), y: Double(y)) {
+                        drawPoint(x: transferX(x: Double(x)), y: transferY(y: Double(y)), radius: unitSize / 2.0, color: col)
                     }
                 }
             }
-        }.frame(width: Double(size) * 2 + 3 * radius , height: Double(size) * 2 + 3 * radius, alignment: Alignment.center).background(Color.white)
+        }.frame(width: resolution , height: resolution, alignment: Alignment.center).background(Color.white)
     }
 }
 
-func getColor(x: Int, y: Int) -> Color? {
-    let nr = ComplexNumber(real: Double(x) / (Double(range) / 2.1) , imaginary: Double(-y) / (Double(range) / 2.1))
+func getColor(x: Double, y: Double) -> Color? {
+//    let nr = ComplexNumber(real: Double(x) / (Double(range) / 2.1) , imaginary: Double(-y) / (Double(range) / 2.1))
+    let nr = ComplexNumber(real: x * intPerUnit, imaginary: y * intPerUnit)
     let val = isInMandelbrotSet(number: nr, iterations: iterations)
     if val == 0 {
         return .black
     } else if Double(val) > 0.9 * Double(threshold) {
         return .purple
-    } else if Double(val) > 0.9 * Double(threshold) {
+    } else if Double(val) > 0.8 * Double(threshold) {
         return .blue
     } else if Double(val) > 0.75 * Double(threshold) {
         return .green
@@ -56,20 +80,20 @@ func getColor(x: Int, y: Int) -> Color? {
     }
 }
 
-func getPoints(x: Int, y: Int) -> (Double, Double) {
-    let x1 = x + 1
-    let y1 = y + 1
-    
-    let compensation = Double(range)
-    
-    let x2: Double = Double(x1) * radius * 2
-    let y2: Double = Double(y1) * radius * 2
-    
-    let x3 = x2 + compensation * radius * 2
-    let y3 = y2 + compensation * radius * 2
-    
-    return (x3, y3)
-}
+//func getPoints(x: Int, y: Int) -> (Double, Double) {
+//    let x1 = x + 1
+//    let y1 = y + 1
+//
+//    let compensation = Double(range)
+//
+//    let x2: Double = Double(x1) * radius * 2
+//    let y2: Double = Double(y1) * radius * 2
+//
+//    let x3 = x2 + compensation * radius * 2
+//    let y3 = y2 + compensation * radius * 2
+//
+//    return (x3, y3)
+//}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
