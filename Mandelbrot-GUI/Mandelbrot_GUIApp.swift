@@ -10,25 +10,30 @@ import SwiftUI
 @main
 struct Mandelbrot_GUIApp: App {
     /// The resolution of the image in pixel per half dimension
-    @State var resolution: Double = 802
+    @State var resolution: Double = 400
     /// The range of calculated numbers
     @State var range: Double = 2.1
-    /// The diameter of one unit
-    @State var unitSize: Double = 4
+    /// The number of units per half dimension
+    @State var unitNr: UInt32 = 100
     /// The number of calculating iterations
     @State var iterations: UInt32 = 1000
     /// The threshold for calculating the color of the values
     @State var threshold: UInt32 = 18
     
-    @State var resolutionStr = "802"
+    
+    @State var resolutionStr = "400"
     @State var rangeStr = "2.1"
-    @State var unitSizeStr = "4"
+    @State var unitNrStr = "100"
     @State var iterationsStr = "1000"
     @State var thresholdStr = "18"
     
     func optimizeRes() {
-        let newUnitNr = ceil(resolution / unitSize - 0.5)
-        resolution = unitSize * (newUnitNr + 0.5)
+        let realRes = Double(resolution) - 10
+        let realUnitNr = Double(unitNr) + 0.5
+        let newUnitSize = ceil(realRes  / realUnitNr)
+        resolution = (Double(unitNr) + 0.5) * newUnitSize + 10
+        resolutionStr = String(resolution)
+//        print(String(resolution) + "\n" + resolutionStr)
     }
     
     func reload() {
@@ -37,7 +42,7 @@ struct Mandelbrot_GUIApp: App {
         
         range = Double(rangeStr) ?? 2.1
         
-        unitSize = Double(unitSizeStr) ?? 4
+        unitNr = UInt32(unitNrStr) ?? 4
         
         iterations = UInt32(iterationsStr) ?? 1000
         
@@ -46,7 +51,7 @@ struct Mandelbrot_GUIApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(resolution: $resolution, range: $range, unitSize: $unitSize, iterations: $iterations, threshold: $threshold)
+            ContentView(resolution: $resolution, range: $range, unitNr: $unitNr, iterations: $iterations, threshold: $threshold)
         }
         .commands {
             CommandGroup(after: .printItem) {
@@ -62,7 +67,7 @@ struct Mandelbrot_GUIApp: App {
         }
         
         Settings {
-            SettingsWindow(resolutionStr: $resolutionStr, rangeStr: $rangeStr, unitSizeStr: $unitSizeStr, iterationsStr: $iterationsStr, thresholdStr: $thresholdStr, app: self)
+            SettingsWindow(resolutionStr: $resolutionStr, rangeStr: $rangeStr, unitNrStr: $unitNrStr, iterationsStr: $iterationsStr, thresholdStr: $thresholdStr, app: self)
         }
     }
 }
@@ -81,12 +86,19 @@ extension String  {
         }
         return false
     }
+    
+    var isInt: Bool {
+        if let _ = Int(self) {
+            return true
+        }
+        return false
+    }
 }
 
 struct SettingsWindow: View {
     @Binding var resolutionStr: String
     @Binding var rangeStr: String
-    @Binding var unitSizeStr: String
+    @Binding var unitNrStr: String
     @Binding var iterationsStr: String
     @Binding var thresholdStr: String
     
@@ -117,10 +129,10 @@ struct SettingsWindow: View {
             }
             HStack {
                 Spacer()
-                Text("UnitSize")
-                TextField("UnitSize", text: $unitSizeStr).fixedSize().onChange(of: unitSizeStr) { us in
+                Text("Number of Units")
+                TextField("Number", text: $unitNrStr).fixedSize().onChange(of: unitNrStr) { us in
                     if !(us.isDouble || us.isEmpty) {
-                        unitSizeStr = String(app.unitSize)
+                        unitNrStr = String(app.unitNr)
                     }
                 }
                 Spacer()
