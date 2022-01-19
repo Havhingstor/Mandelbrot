@@ -12,22 +12,22 @@ public class Unit {
     public var group: Group
     private var upConnect: Bool = false, downConnect: Bool = false, leftConnect: Bool = false, rightConnect: Bool = false
     private var color: Color
-    
+
     init(c: Color, up: Unit?, left: Unit?, x: Int, y: Int) {
         group = Group()
-        
+
         color = c
-        
+
         var l = false, u = false
-        
+
         if let left = left {
             l = left.color == c
         }
-        
+
         if let up = up {
             u = up.color == c
         }
-        
+
         if l && !u {
             left!.connectRight()
             group = left!.group
@@ -46,32 +46,32 @@ public class Unit {
         }
         group.addUnit(u: self)
     }
-    
+
     public func connectRight() {
         rightConnect = true
     }
-    
+
     public func connectDown() {
         downConnect = true
     }
-    
-    public var upConnectExternal: Bool {upConnect}
-    public var downConnectExternal: Bool {downConnect}
-    public var leftConnectExternal: Bool {leftConnect}
-    public var rightConnectExternal: Bool {rightConnect}
-    public var colorExternal: Color {color}
-    
+
+    public var upConnectExternal: Bool { upConnect }
+    public var downConnectExternal: Bool { downConnect }
+    public var leftConnectExternal: Bool { leftConnect }
+    public var rightConnectExternal: Bool { rightConnect }
+    public var colorExternal: Color { color }
+
 }
 
 public class Group: CustomStringConvertible {
     private var groupID = UUID()
-    
+
     private var units: [Unit] = []
-    
+
     public func addUnit(u: Unit) {
         units.append(u)
     }
-    
+
     public func changeGroup(g: Group) {
         if g.groupID != groupID {
             for unit in units {
@@ -80,11 +80,11 @@ public class Group: CustomStringConvertible {
             }
         }
     }
-    
+
     public var description: String {
         groupID.uuidString
     }
-    
+
     public var groupIDExternal: UUID {
         groupID
     }

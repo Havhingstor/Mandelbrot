@@ -19,41 +19,41 @@ struct Mandelbrot_GUIApp: App {
     @State var iterations: UInt32 = 1000
     /// The threshold for calculating the color of the values
     @State var threshold: UInt32 = 18
-    
-    
+
+
     @State var resolutionStr = "400"
     @State var rangeStr = "2.1"
     @State var unitNrStr = "100"
     @State var iterationsStr = "1000"
     @State var thresholdStr = "18"
-    
+
     func optimizeRes() {
         let realRes = Double(resolution) - 10
         let realUnitNr = Double(unitNr) + 0.5
-        let newUnitSize = ceil(realRes  / realUnitNr)
+        let newUnitSize = ceil(realRes / realUnitNr)
         resolution = (Double(unitNr) + 0.5) * newUnitSize + 10
         resolutionStr = String(resolution)
 //        print(String(resolution) + "\n" + resolutionStr)
     }
-    
+
     func reload() {
-        
+
         resolution = Double(resolutionStr) ?? 802
-        
+
         range = Double(rangeStr) ?? 2.1
-        
+
         unitNr = UInt32(unitNrStr) ?? 4
-        
+
         iterations = UInt32(iterationsStr) ?? 1000
-        
+
         threshold = UInt32(thresholdStr) ?? 18
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView(resolution: $resolution, range: $range, unitNr: $unitNr, iterations: $iterations, threshold: $threshold)
         }
-        .commands {
+            .commands {
             CommandGroup(after: .printItem) {
                 Button("Reload") {
                     reload()
@@ -65,28 +65,28 @@ struct Mandelbrot_GUIApp: App {
                 }.keyboardShortcut("o")
             }
         }
-        
+
         Settings {
             SettingsWindow(resolutionStr: $resolutionStr, rangeStr: $rangeStr, unitNrStr: $unitNrStr, iterationsStr: $iterationsStr, thresholdStr: $thresholdStr, app: self)
         }
     }
 }
 
-extension String  {
+extension String {
     var isDouble: Bool {
         if let _ = Double(self) {
             return true
         }
         return false
     }
-    
+
     var isUInt32: Bool {
         if let _ = UInt32(self) {
             return true
         }
         return false
     }
-    
+
     var isInt: Bool {
         if let _ = Int(self) {
             return true
@@ -101,9 +101,9 @@ struct SettingsWindow: View {
     @Binding var unitNrStr: String
     @Binding var iterationsStr: String
     @Binding var thresholdStr: String
-    
+
     var app: Mandelbrot_GUIApp
-    
+
     var body: some View {
         VStack {
             Spacer()
@@ -137,7 +137,7 @@ struct SettingsWindow: View {
                 }
                 Spacer()
             }
-            
+
             HStack {
                 Spacer()
                 Text("Iterations")
@@ -148,7 +148,7 @@ struct SettingsWindow: View {
                 }
                 Spacer()
             }
-            
+
             HStack {
                 Spacer()
                 Text("Threshold")
@@ -159,7 +159,7 @@ struct SettingsWindow: View {
                 }
                 Spacer()
             }
-            
+
             Button("Reload") {
                 app.reload()
             }.keyboardShortcut(.defaultAction)

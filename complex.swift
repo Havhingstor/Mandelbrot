@@ -10,7 +10,7 @@ import Foundation
 public class ComplexNumber: CustomStringConvertible {
     public var description: String {
         if real != 0 && imaginary != 0 {
-           if imaginary != 1 && imaginary != -1 && imaginary > 0 {
+            if imaginary != 1 && imaginary != -1 && imaginary > 0 {
                 return "\(real) + \(imaginary)i"
             } else if imaginary != 1 && imaginary != -1 && imaginary < 0 {
                 return "\(real) - \(-imaginary)i"
@@ -36,37 +36,37 @@ public class ComplexNumber: CustomStringConvertible {
             return "0"
         }
     }
-    
+
     private var real: Double
     private var imaginary: Double
-    
+
     init(real: Double = 0, imaginary: Double = 0) {
         self.real = real
         self.imaginary = imaginary
     }
-    
+
     public func sqr() -> ComplexNumber {
         let p1 = real * real
         let p2 = 2 * real * imaginary
         let p3 = imaginary * imaginary
-        
+
         let newReal = p1 - p3
-        
+
         return ComplexNumber(real: newReal, imaginary: p2)
     }
-    
+
     public func add(_ val: ComplexNumber) -> ComplexNumber {
         return ComplexNumber(real: real + val.real, imaginary: imaginary + val.imaginary)
     }
-    
+
     public var realExternal: Double {
         real
     }
-    
+
     public var imaginaryExternal: Double {
         imaginary
     }
-    
+
     public var absolute: Double {
         sqrt(real * real + imaginary * imaginary)
     }
